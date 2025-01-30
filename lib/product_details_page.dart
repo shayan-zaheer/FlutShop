@@ -1,4 +1,6 @@
+import "package:flutshop/cart_provider.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class ProductDetailsPage extends StatefulWidget {
   final Map<String, Object> product;
@@ -10,6 +12,27 @@ class ProductDetailsPage extends StatefulWidget {
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
     int selectedSize = 0;
+
+    void onTap() {
+        if(selectedSize != 0){
+            Provider.of<CartProvider>(context, listen: false).addProduct({
+            'id': widget.product["id"],
+            'title': widget.product["title"],
+            'price': widget.product["price"],
+            'imageUrl': widget.product["imageUrl"],
+            'company': widget.product["company"],
+            'size': selectedSize,
+        }); // using provider, we always use <> with the class of the provider. listen shoud be set to false everytime we have to call a function from any provider
+    } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text(
+                    "Please select a size!",
+                ),
+            ),
+        ); // it uses context to keep track of the page on which it wants to show the snackbar
+    }
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +85,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   ),
                   FilledButton.icon(
                     icon: Icon(Icons.shopping_cart),
-                    onPressed: () {},
+                    onPressed: onTap,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Colors.black,
