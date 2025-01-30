@@ -1,4 +1,5 @@
 import "package:flutshop/product_card.dart";
+import "package:flutshop/product_details_page.dart";
 import "package:flutter/material.dart";
 import "package:flutshop/global_variables.dart";
 
@@ -41,10 +42,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     "Shoes\nCollection",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 35,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
                 Expanded(
@@ -103,11 +101,28 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: ListView.builder(
                   itemCount: products.length,
-                  itemBuilder: (context, index){
-                      final product = products[index];
-                      return ProductCard(title: product["title"] as String, price: product["price"] as double, image: product["imageUrl"] as String);
-                  }
-              ),
+                  itemBuilder: (context, index) {
+                    final product = products[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ProductDetailsPage(product: product);
+                            },
+                          ),
+                        );
+                      },
+                      child: ProductCard(
+                        title: product["title"] as String,
+                        price: product["price"] as double,
+                        image: product["imageUrl"] as String,
+                        color: index % 2 == 0
+                            ? Color.fromRGBO(216, 240, 253, 1)
+                            : Color.fromRGBO(225, 225, 225, 1),
+                      ),
+                    );
+                  }),
             )
           ],
         ),
