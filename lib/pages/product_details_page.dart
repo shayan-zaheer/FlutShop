@@ -1,4 +1,4 @@
-import "package:flutshop/cart_provider.dart";
+import "package:flutshop/providers/cart_provider.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
@@ -51,7 +51,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             const Spacer(), // spacer is used for relative spacing (flex)
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Image.asset(widget.product["imageUrl"].toString()),
+              child: Image.asset(
+                widget.product["imageUrl"].toString(),
+                height: 250,
+            ),
+
             ),
             const Spacer(flex: 2),
             Container(
@@ -89,10 +93,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Colors.black,
-                      minimumSize: Size(
-                        double.infinity,
-                        50,
-                      ),
+                      fixedSize: Size(
+                        350, 50
+                    ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
